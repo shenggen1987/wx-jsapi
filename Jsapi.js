@@ -134,13 +134,17 @@ class Jsapi {
      *  @param args 将参与签名的对象排序 参数；
      */
     raw(args) {
-        let keys = Object.keys(args); //获取json对象 的key值，并存在数组里；
+        let keys = Object.keys(args);
         keys = keys.sort();
+        let newArgs = {};
+        keys.forEach(function (key) {
+           newArgs[key.toLowerCase()] = args[key];
+        });
 
         let string = '';
-        keys.forEach((val)=>{
-            string += '&' + val + '=' + args[val];
-        });
+        for (let k in newArgs) {
+          string += '&' + k + '=' + newArgs[k];
+        }
         string = string.substr(1);
         return string;
     }
